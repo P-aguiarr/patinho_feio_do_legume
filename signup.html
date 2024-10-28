@@ -12,16 +12,28 @@
             <img src="images/logo.png" alt="Logo" class="logo">
             <h2>Faça sua Associação</h2>
             <p>Crie sua nova conta</p>
-            <form action="choose-profile.html" method="get">
-                <input type="text" placeholder="Nome" required>
-                <input type="email" placeholder="E-mail" required>
-                <input type="text" placeholder="Celular" required>
-                <input type="password" placeholder="Senha" required>
+
+            <!-- Formulário de Cadastro -->
+            <form id="signupForm" action="/api/signup" method="post">
+                <input type="text" id="nome" name="nome" placeholder="Nome" required>
+                <small id="nomeError" class="error-message"></small>
+
+                <input type="email" id="email" name="email" placeholder="E-mail" required>
+                <small id="emailError" class="error-message"></small>
+
+                <input type="text" id="celular" name="celular" placeholder="Celular" required>
+                <small id="celularError" class="error-message"></small>
+
+                <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                <small id="senhaError" class="error-message"></small>
+
                 <p>Ao clicar "Sign Up" você concorda com os <a href="#">Termos e Condições</a> e <a href="#">Políticas de Privacidade</a></p>
                 <button type="submit">Sign Up</button>
             </form>
+
+            <!-- Login Social e Link para Login -->
             <div class="social-login">
-                <p>OR</p>
+                <p>OU</p>
                 <div class="social-icons">
                     <img src="images/google-icon.png" alt="Google">
                     <img src="images/facebook-icon.png" alt="Facebook">
@@ -30,32 +42,9 @@
                 <p>Já tem uma conta? <a href="login.html">Log In</a></p>
             </div>
         </div>
-        <!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
-    <title>Sign Up - Patinho Feio do Legume</title>
-</head>
-<body>
-    <div class="container">
-        <form id="signupForm" action="/api/signup" method="post">
-            <input type="text" id="nome" name="nome" placeholder="Nome" required>
-            <small id="nomeError" class="error-message"></small>
-
-            <input type="email" id="email" name="email" placeholder="E-mail" required>
-            <small id="emailError" class="error-message"></small>
-
-            <input type="text" id="celular" name="celular" placeholder="Celular" required>
-            <small id="celularError" class="error-message"></small>
-
-            <input type="password" id="senha" name="senha" placeholder="Senha" required>
-            <small id="senhaError" class="error-message"></small>
-
-            <button type="submit">Sign Up</button>
-        </form>
     </div>
+
+    <!-- Script para Validação -->
     <script src="script.js"></script>
     <style>
         .error-message { color: red; font-size: 0.9em; display: none; }
