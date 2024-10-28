@@ -1,65 +1,53 @@
-// Existing event listeners for switching between sign-in and sign-up
-document.getElementById('switchToSignIn').addEventListener('click', () => {
-    document.querySelector('.sign-in-container').style.left = '0';
-    document.querySelector('.sign-up-container').style.left = '-50%';
-});
+document.getElementById("signupForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+    let hasError = false;
 
-document.getElementById('switchToSignUp').addEventListener('click', () => {
-    document.querySelector('.sign-in-container').style.left = '50%';
-    document.querySelector('.sign-up-container').style.left = '0';
-});
-
-// Initial item count and cart items
-let itemCount = 0;
-const cartItems = {}; // Object to store cart items and their quantities
-
-// Function to handle adding items to the cart
-function addItemToCart(event) {
-    const itemName = event.currentTarget.querySelector('h3').textContent;
-    
-    // Check if the item is already in the cart
-    if (cartItems[itemName]) {
-        cartItems[itemName].quantity += 1;
+    const nome = document.getElementById("nome").value;
+    if (nome === "") {
+        showError("nomeError", "O campo 'Nome' é obrigatório.");
+        hasError = true;
     } else {
-        cartItems[itemName] = { name: itemName, quantity: 1 };
+        hideError("nomeError");
     }
 
-    // Update the item count
-    itemCount++;
-    document.getElementById('itemCount').textContent = itemCount;
+    const email = document.getElementById("email").value;
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showError("emailError", "Por favor, insira um e-mail válido.");
+        hasError = true;
+    } else {
+        hideError("emailError");
+    }
+
+    const celular = document.getElementById("celular").value;
+    const celularRegex = /^[0-9]{10,11}$/;
+    if (!celularRegex.test(celular)) {
+        showError("celularError", "Por favor, insira um número de celular válido com código de área.");
+        hasError = true;
+    } else {
+        hideError("celularError");
+    }
+
+    const senha = document.getElementById("senha").value;
+    if (senha.length < 8) {
+        showError("senhaError", "A senha deve ter pelo menos 8 caracteres.");
+        hasError = true;
+    } else {
+        hideError("senhaError");
+    }
+
+    if (!hasError) {
+        document.getElementById("signupForm").submit();
+    }
+});
+
+function showError(elementId, message) {
+    const element = document.getElementById(elementId);
+    element.innerText = message;
+    element.style.display = "block";
 }
 
-// Adding click event listeners to product items (assuming they have the class 'destination-card')
-const destinationCards = document.querySelectorAll('.destination-card');
-destinationCards.forEach(card => {
-    card.addEventListener('click', addItemToCart);
-});
-
-// Display cart items in the tooltip when clicking the floating cart icon
-const floatingCart = document.getElementById('floatingCart');
-const cartTooltip = document.getElementById('cartTooltip');
-const cartItemsList = document.getElementById('cartItemsList');
-
-floatingCart.addEventListener('click', () => {
-    // Toggle the visibility of the tooltip
-    if (cartTooltip.style.display === 'none' || cartTooltip.style.display === '') {
-        cartTooltip.style.display = 'block';
-        
-        // Populate the tooltip with cart items
-        cartItemsList.innerHTML = ''; // Clear the list first
-        for (const itemName in cartItems) {
-            const listItem = document.createElement('li');
-            listItem.innerHTML = `<span>${cartItems[itemName].quantity}</span> <span>${cartItems[itemName].name}</span>`;
-            cartItemsList.appendChild(listItem);
-        }
-    } else {
-        cartTooltip.style.display = 'none';
-    }
-});
-
-// Close the tooltip if the user clicks outside of it
-window.addEventListener('click', (event) => {
-    if (event.target !== floatingCart && event.target !== cartTooltip && !cartTooltip.contains(event.target)) {
-        cartTooltip.style.display = 'none';
-    }
-});
+function hideError(elementId) {
+    const element = document.getElementById(elementId);
+    element.style.display = "none";
+}
