@@ -1,5 +1,4 @@
 document.getElementById("signupForm").addEventListener("submit", function(event) {
-    event.preventDefault();
     let hasError = false;
 
     const nome = document.getElementById("nome").value;
@@ -36,8 +35,9 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
         hideError("senhaError");
     }
 
-    if (!hasError) {
-        document.getElementById("signupForm").submit();
+    // Se houver erro, impede o envio do formulário
+    if (hasError) {
+        event.preventDefault();
     }
 });
 
