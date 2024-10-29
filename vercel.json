@@ -1,16 +1,12 @@
 {
-  "version": 2,
-  "builds": [
-    {
-      "src": "signup.html",
-      "use": "@vercel/static"
-    },
-    {
-      "src": "compra/server.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    { "src": "/(.*)", "dest": "/home.html" }
+  "rewrites": [
+    { "source": "/", "destination": "/signup.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/home", "destination": "/home.html" },
+    { "source": "/carrinho", "destination": "/carrinho.html" },
+    { "source": "/destination", "destination": "/destination.html" },
+    { "source": "/destinationfarm", "destination": "/destinationfarm.html" },
+    { "source": "/choose-profile", "destination": "/choose-profile.html" },
+    { "source": "/logout", "destination": "/Logout.html" }
   ]
 }
