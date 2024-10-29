@@ -2,7 +2,7 @@
   "version": 2,
   "builds": [
     {
-      "src": "home.html",
+      "src": "signup.html",
       "use": "@vercel/static"
     },
     {
