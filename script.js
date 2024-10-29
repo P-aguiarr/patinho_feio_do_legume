@@ -35,10 +35,7 @@ document.getElementById("signupForm").addEventListener("submit", function(event)
         hideError("senhaError");
     }
 
-    // Se houver erro, impede o envio do formulário
-    if (hasError) {
-        event.preventDefault();
-    }
+    // Removido event.preventDefault() para testar o envio direto
 });
 
 function showError(elementId, message) {
