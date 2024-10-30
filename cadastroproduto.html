@@ -149,13 +149,13 @@
         function cadastrarProduto() {
             const form = document.getElementById('productForm');
             const formData = new FormData(form);
-
+    
             formData.append('quantidade', form.quantidade.value);
             formData.append('id_agricultor', 1);  
             formData.append('classificacao', 4.5); 
             formData.append('tipo_produto', form.categoria.value); 
             formData.append('tipo_medida', 'kg');  
-
+    
             fetch('https://webserver-produto-patinho-feio-do-legume.vercel.app/produtos/cadastrar/', {
                 method: 'POST',
                 body: formData
@@ -164,17 +164,19 @@
                 if (response.ok) {
                     alert('Produto cadastrado com sucesso!');
                 } else {
-                    response.text().then(text => {
-                        alert('Erro ao cadastrar o produto: ' + text);
-                    });
+                    alert('Erro ao cadastrar o produto.');
                 }
+                // Redireciona para a página de listagem independente do resultado
+                window.location.href = 'listagem.html';
             })
             .catch(error => {
                 console.error('Erro:', error);
                 alert('Erro ao conectar com o servidor: ' + error.message);
+                // Redireciona para a página de listagem em caso de erro
+                window.location.href = 'listagem.html';
             });
-
         }
     </script>
+
 </body>
 </html>
