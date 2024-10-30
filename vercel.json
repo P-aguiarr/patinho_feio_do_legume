@@ -7,9 +7,9 @@
     { "source": "/carrinho", "destination": "/carrinho.html" },
     { "source": "/destination", "destination": "/destination.html" },
     { "source": "/destinationfarm", "destination": "/destinationfarm.html" },
-    { "source": "/destinationfarm", "destination": "/cadastroproduto.html" },
-    { "source": "/destinationfarm", "destination": "/edicao.html" },
-    { "source": "/destinationfarm", "destination": "/listagem.html" },
+    { "source": "/cadastroproduto", "destination": "/cadastroproduto.html" },
+    { "source": "/edicao", "destination": "/edicao.html" },
+    { "source": "/listagem", "destination": "/listagem.html" },
     { "source": "/logout", "destination": "/Logout.html" }
   ]
 }
