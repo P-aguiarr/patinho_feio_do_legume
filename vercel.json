@@ -1,28 +1,15 @@
 {
-  "version": 2,
-  "builds": [
-    { "src": "manage.py", "use": "@vercel/python" },  // Verifique se manage.py está no diretório raiz
-    { "src": "produtoWebserver/wsgi.py", "use": "@vercel/python" },  // Confirme se o caminho "produtoWebserver/wsgi.py" é o correto para o arquivo wsgi
-    {
-      "src": "build_files.sh",
-      "use": "@vercel/static-build",
-      "config": {
-        "distDir": "staticfiles_build"  // Certifique-se de que "staticfiles_build" é onde seus arquivos estáticos vão parar
-      }
-    }
-  ],
-  "routes": [
-    { "src": "/choose-profile", "dest": "/choose-profile.html" },
-    { "src": "/", "dest": "/signup.html" },
-    { "src": "/login", "dest": "/login.html" },
-    { "src": "/home", "dest": "/home.html" },
-    { "src": "/carrinho", "dest": "/carrinho.html" },
-    { "src": "/destination", "dest": "/destination.html" },
-    { "src": "/destinationfarm", "dest": "/destinationfarm.html" },
-    { "src": "/cadastroproduto", "dest": "/cadastroproduto.html" },
-    { "src": "/edicao", "dest": "/edicao.html" },
-    { "src": "/listagem", "dest": "/listagem.html" },
-    { "src": "/logout", "dest": "/Logout.html" },
-    { "src": "/(.*)", "dest": "produtoWebserver/wsgi.py" }  // Verifique o caminho para o WSGI
+  "rewrites": [
+    { "source": "/choose-profile", "destination": "/choose-profile.html" },
+    { "source": "/", "destination": "/signup.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/home", "destination": "/home.html" },
+    { "source": "/carrinho", "destination": "/carrinho.html" },
+    { "source": "/destination", "destination": "/destination.html" },
+    { "source": "/destinationfarm", "destination": "/destinationfarm.html" },
+    { "source": "/cadastroproduto", "destination": "/cadastroproduto.html" },
+    { "source": "/edicao", "destination": "/edicao.html" },
+    { "source": "/listagem", "destination": "/listagem.html" },
+    { "source": "/logout", "destination": "/Logout.html" }
   ]
 }
