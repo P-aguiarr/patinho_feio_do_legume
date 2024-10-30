@@ -213,6 +213,10 @@
             document.getElementById("por_unidade").style.display = tipoVenda === "unidade" ? "block" : "none";
             document.getElementById("por_quilo").style.display = tipoVenda === "quilo" ? "block" : "none";
         }
+        document.getElementById("edit-form").addEventListener("submit", function(event) {
+            event.preventDefault(); // Previne o envio padrão do formulário
+            window.location.href = "edicao.html"; // Redireciona para edicao.html
+        });
     </script>
 </body>
 </html>
