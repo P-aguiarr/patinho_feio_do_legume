@@ -164,13 +164,16 @@
                 if (response.ok) {
                     alert('Produto cadastrado com sucesso!');
                 } else {
-                    alert('Erro ao cadastrar o produto.');
+                    response.text().then(text => {
+                        alert('Erro ao cadastrar o produto: ' + text);
+                    });
                 }
             })
             .catch(error => {
                 console.error('Erro:', error);
-                alert('Erro ao conectar com o servidor.');
+                alert('Erro ao conectar com o servidor: ' + error.message);
             });
+
         }
     </script>
 </body>
