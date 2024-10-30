@@ -1,13 +1,13 @@
 {
   "version": 2,
   "builds": [
-    { "src": "manage.py", "use": "@vercel/python" },
-    { "src": "produtoWebserver/wsgi.py", "use": "@vercel/python" },
+    { "src": "manage.py", "use": "@vercel/python" },  // Verifique se manage.py está no diretório raiz
+    { "src": "produtoWebserver/wsgi.py", "use": "@vercel/python" },  // Confirme se o caminho "produtoWebserver/wsgi.py" é o correto para o arquivo wsgi
     {
       "src": "build_files.sh",
       "use": "@vercel/static-build",
       "config": {
-        "distDir": "staticfiles_build"
+        "distDir": "staticfiles_build"  // Certifique-se de que "staticfiles_build" é onde seus arquivos estáticos vão parar
       }
     }
   ],
@@ -23,6 +23,6 @@
     { "src": "/edicao", "dest": "/edicao.html" },
     { "src": "/listagem", "dest": "/listagem.html" },
     { "src": "/logout", "dest": "/Logout.html" },
-    { "src": "/(.*)", "dest": "produtoWebserver/wsgi.py" }
+    { "src": "/(.*)", "dest": "produtoWebserver/wsgi.py" }  // Verifique o caminho para o WSGI
   ]
 }
