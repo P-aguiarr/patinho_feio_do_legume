@@ -523,3 +523,20 @@ a:hover {
     padding: 2px 0;
     font-size: 0.9em;
 }
+.button-publique {
+    display: inline-block;
+    padding: 10px 20px;
+    color: #ff6600; /* Cor do texto */
+    text-decoration: none;
+    border-radius: 5px;
+    background-color: #f2f2f2; /* Cor de fundo */
+    border: 1px solid #ccc;
+    font-weight: bold;
+    font-size: 14px;
+    transition: background-color 0.3s;
+}
+
+.button-publique:hover {
+    background-color: #e6e6e6;
+}
+
