@@ -38,7 +38,8 @@
             const username = document.getElementById("username").value;
             const password = document.getElementById("password").value;
 
-            fetch(`https://webserver-cliente-patinho-feio-cht780s1j-alineyhigas-projects.vercel.app/auth/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+            fetch(`https://webserver-cliente-patinho-feio-c5kt8j3ns-alineyhigas-projects.vercel.app/auth/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+                
                 method: "GET"
             })
             .then(response => response.json())
