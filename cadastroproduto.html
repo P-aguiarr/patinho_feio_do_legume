@@ -12,7 +12,6 @@
             margin: 0;
             padding: 0;
         }
-        /* Estilo do cabeçalho */
         header {
             display: flex;
             justify-content: space-between;
@@ -38,7 +37,6 @@
         .icons {
             font-size: 1.5em;
         }
-        /* Estilo do conteúdo principal */
         .form-container {
             background-color: #f7f3eb;
             padding: 30px 40px;
@@ -62,9 +60,8 @@
         input[type="text"],
         input[type="number"],
         input[type="file"],
-        input[type="date"],
-        select,
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 12px;
             border: 1px solid #c3c2bc;
@@ -72,16 +69,6 @@
             margin-bottom: 15px;
             font-size: 1em;
             background-color: #f5f3ef;
-        }
-        .form-section {
-            margin-bottom: 25px;
-        }
-        .form-section h3 {
-            color: #63a160;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
         }
         button {
             background-color: #63a160;
@@ -92,13 +79,10 @@
             cursor: pointer;
             font-size: 1em;
             transition: background-color 0.3s;
+            width: 100%;
         }
         button:hover {
-            background-color: #63a160;
-        }
-        /* Esconde as seções dinâmicas inicialmente */
-        .dynamic-field {
-            display: none;
+            background-color: #4a8a4f;
         }
     </style>
 </head>
@@ -107,7 +91,7 @@
     <!-- Cabeçalho com logo e ícones -->
     <header>
         <div class="logo-container">
-            <img src="imagens/logo.png" alt="Logo do Patinho Feio do Legume">
+            <img src="images/logo.png" alt="Logo do Patinho Feio do Legume">
             <span>Patinho Feio do Legume</span>
         </div>
         <div class="icons">
@@ -119,102 +103,62 @@
     <!-- Conteúdo principal -->
     <div class="form-container">
         <h2>Cadastro de Produto</h2>
-        <form action="/cadastrar-produto" method="POST" enctype="multipart/form-data">
+        <form id="produtoForm" enctype="multipart/form-data">
             <!-- Dados Básicos do Produto -->
-            <div class="form-section">
-                <h3>Dados Básicos do Produto</h3>
-                <label>Nome do Produto:
-                    <input type="text" name="nome" placeholder="Digite o nome do produto" required>
-                </label>
-                <label>Descrição:
-                    <textarea name="descricao" rows="4" placeholder="Detalhe os benefícios e o modo de uso" required></textarea>
-                </label>
-                <label>Categoria:
-                    <select name="categoria" required>
-                        <option value="" disabled selected>Selecione a categoria</option>
-                        <option>Frutas</option>
-                        <option>Vegetais</option>
-                        <option>Grãos</option>
-                    </select>
-                </label>
-                <label>Imagens do Produto:
-                    <input type="file" name="imagens" accept="image/*" multiple>
-                </label>
-                <label>Código de Barras (opcional):
-                    <input type="text" name="codigo_barras" placeholder="Digite o código de barras">
-                </label>
-            </div>
-            
-            <!-- Especificações do Produto -->
-            <div class="form-section">
-                <h3>Especificações do Produto</h3>
-                <label>Tipo de Venda:
-                    <select name="tipo_venda" id="tipo_venda" required onchange="atualizarCampos()">
-                        <option value="" disabled selected>Selecione o tipo de venda</option>
-                        <option value="unidade">Por unidade</option>
-                        <option value="quilo">Por quilo</option>
-                    </select>
-                </label>
-                
-                <!-- Campos para "Por Unidade" -->
-                <div id="por_unidade" class="dynamic-field">
-                    <label>Quantidade por Embalagem:
-                        <input type="number" name="quantidade" placeholder="Digite a quantidade">
-                    </label>
-                    <label>Valor por Unidade:
-                        <input type="number" name="valor_unidade" step="0.01" placeholder="Digite o valor por unidade">
-                    </label>
-                </div>
-                
-                <!-- Campos para "Por Quilo" -->
-                <div id="por_quilo" class="dynamic-field">
-                    <label>Unidade Mínima de Venda:
-                        <input type="number" name="unidade_minima" placeholder="Digite a unidade mínima">
-                    </label>
-                    <label>Valor por Quilo:
-                        <input type="number" name="valor_quilo" step="0.01" placeholder="Digite o valor por quilo">
-                    </label>
-                </div>
-                
-                <label>Peso/Volume:
-                    <input type="number" name="peso" placeholder="Digite o peso ou volume">
-                </label>
-                <label>Informações Nutricionais:
-                    <textarea name="informacoes_nutricionais" rows="2" placeholder="Informações nutricionais relevantes"></textarea>
-                </label>
-            </div>
-            
-            <!-- Informações Adicionais -->
-            <div class="form-section">
-                <h3>Informações Adicionais</h3>
-                <label>Certificações Orgânicas:
-                    <input type="text" name="certificacoes" placeholder="Digite as certificações, se houver">
-                </label>
-                <label>Origem do Produto:
-                    <input type="text" name="origem" placeholder="Digite a origem (local, fazenda, etc.)">
-                </label>
-                <label>Disponibilidade:
-                    <select name="disponibilidade">
-                        <option value="" disabled selected>Selecione a disponibilidade</option>
-                        <option>Em estoque</option>
-                        <option>Pré-venda</option>
-                    </select>
-                </label>
-                <label>Validade (se aplicável):
-                    <input type="date" name="validade">
-                </label>
-            </div>
-            
-            <button type="submit">Cadastrar Produto</button>
+            <label>Nome do Produto:
+                <input type="text" id="nome" name="nome" placeholder="Maçã Orgânica 2" required>
+            </label>
+            <label>Descrição:
+                <textarea id="descricao" name="descricao" placeholder="Maçã orgânica fresca e suculenta" required></textarea>
+            </label>
+            <label>Foto do Produto:
+                <input type="file" id="foto" name="foto" accept="image/*" required>
+            </label>
+            <label>Quantidade:
+                <input type="number" id="quantidade" name="quantidade" step="0.01" placeholder="100.50" required>
+            </label>
+            <label>ID do Agricultor:
+                <input type="number" id="id_agricultor" name="id_agricultor" placeholder="1" required>
+            </label>
+            <label>Classificação:
+                <input type="number" id="classificacao" name="classificacao" step="0.1" placeholder="4.5" required>
+            </label>
+            <label>Tipo de Produto:
+                <input type="text" id="tipo_produto" name="tipo_produto" placeholder="Fruta" required>
+            </label>
+            <label>Tipo de Medida:
+                <input type="text" id="tipo_medida" name="tipo_medida" placeholder="kg" required>
+            </label>
+            <label>Valor:
+                <input type="number" id="valor" name="valor" step="0.01" placeholder="1.00" required>
+            </label>
+            <button type="button" id="cadastrarButton">Cadastrar Produto</button>
         </form>
     </div>
 
     <script>
-        function atualizarCampos() {
-            const tipoVenda = document.getElementById("tipo_venda").value;
-            document.getElementById("por_unidade").style.display = tipoVenda === "unidade" ? "block" : "none";
-            document.getElementById("por_quilo").style.display = tipoVenda === "quilo" ? "block" : "none";
-        }
+        document.getElementById("cadastrarButton").addEventListener("click", function() {
+            const form = document.getElementById("produtoForm");
+            const formData = new FormData(form);
+
+            fetch("https://webserver-produto-patinho-feio-do-legume-6bytzmwt9.vercel.app/produtos/cadastrar/", {
+                method: "POST",
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Produto cadastrado com sucesso!");
+                    form.reset(); // Limpa o formulário após o sucesso
+                } else {
+                    alert("Erro no cadastro do produto. Verifique os dados e tente novamente.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao conectar-se ao servidor.");
+            });
+        });
     </script>
 </body>
 </html>
