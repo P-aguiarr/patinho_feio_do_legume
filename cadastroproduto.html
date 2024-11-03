@@ -153,10 +153,12 @@
                 } else {
                     alert("Erro no cadastro do produto. Verifique os dados e tente novamente.");
                 }
+                window.location.href = 'listagem.html'
             })
             .catch(error => {
                 console.error("Erro:", error);
                 alert("Erro ao conectar-se ao servidor.");
+                window.location.href = 'listagem.html'
             });
         });
     </script>
