@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edição de Produto</title>
+    <title>Editar Produto</title>
     <style>
+        /* Seus estilos mantidos */
         body {
             font-family: Arial, sans-serif;
             background-color: #faf9f7;
@@ -12,7 +13,6 @@
             margin: 0;
             padding: 0;
         }
-        /* Estilo do cabeçalho */
         header {
             display: flex;
             justify-content: space-between;
@@ -38,7 +38,6 @@
         .icons {
             font-size: 1.5em;
         }
-        /* Estilo do conteúdo principal */
         .form-container {
             background-color: #f7f3eb;
             padding: 30px 40px;
@@ -62,9 +61,8 @@
         input[type="text"],
         input[type="number"],
         input[type="file"],
-        input[type="date"],
-        select,
-        textarea {
+        textarea,
+        select {
             width: 100%;
             padding: 12px;
             border: 1px solid #c3c2bc;
@@ -72,16 +70,6 @@
             margin-bottom: 15px;
             font-size: 1em;
             background-color: #f5f3ef;
-        }
-        .form-section {
-            margin-bottom: 25px;
-        }
-        .form-section h3 {
-            color: #63a160;
-            font-size: 1.2em;
-            margin-bottom: 10px;
-            border-bottom: 2px solid #ddd;
-            padding-bottom: 5px;
         }
         button {
             background-color: #63a160;
@@ -92,7 +80,6 @@
             cursor: pointer;
             font-size: 1em;
             transition: background-color 0.3s;
-            margin: 5px;
         }
         button:hover {
             background-color: #519f51;
@@ -101,7 +88,6 @@
 </head>
 <body>
 
-    <!-- Cabeçalho com logo e ícones -->
     <header>
         <div class="logo-container">
             <img src="images/logo.png" alt="Logo do Patinho Feio do Legume">
@@ -113,110 +99,127 @@
         </div>
     </header>
 
-    <!-- Conteúdo principal -->
     <div class="form-container">
-        <h2>Edição de Produto</h2>
-        <form action="/edicao" method="POST" enctype="multipart/form-data">
-            <!-- Dados Básicos do Produto -->
+        <h2>Editar Produto</h2>
+        <form id="productForm">
             <div class="form-section">
                 <h3>Dados Básicos do Produto</h3>
                 <label>Nome do Produto:
-                    <input type="text" name="nome" value="Tomate Orgânico" required>
+                    <input type="text" name="nome" id="nome" required>
                 </label>
                 <label>Descrição:
-                    <textarea name="descricao" rows="4" required>Descrição do Tomate Orgânico</textarea>
+                    <textarea name="descricao" id="descricao" rows="4" required></textarea>
                 </label>
                 <label>Categoria:
-                    <select name="categoria" required>
-                        <option value="" disabled>Selecione a categoria</option>
-                        <option value="Frutas">Frutas</option>
-                        <option value="Vegetais" selected>Vegetais</option>
-                        <option value="Grãos">Grãos</option>
+                    <select name="categoria" id="categoria" required>
+                        <option value="Fruta">Frutas</option>
+                        <option value="Vegetal">Vegetais</option>
+                        <option value="Grao">Grãos</option>
                     </select>
                 </label>
                 <label>Imagens do Produto:
-                    <input type="file" name="imagens" accept="image/*" multiple>
+                    <input type="file" name="foto" id="foto" accept="image/*">
                 </label>
-                <label>Código de Barras (opcional):
-                    <input type="text" name="codigo_barras" value="1234567890123">
+                <label>Quantidade:
+                    <input type="number" name="quantidade" id="quantidade" required step="0.01">
                 </label>
-            </div>
-            
-            <!-- Especificações do Produto -->
-            <div class="form-section">
-                <h3>Especificações do Produto</h3>
-                <label>Tipo de Venda:
-                    <select name="tipo_venda" id="tipo_venda" required onchange="atualizarCampos()">
-                        <option value="" disabled>Selecione o tipo de venda</option>
-                        <option value="unidade">Por unidade</option>
-                        <option value="quilo" selected>Por quilo</option>
-                    </select>
-                </label>
-                
-                <!-- Campos para "Por Unidade" -->
-                <div id="por_unidade" class="dynamic-field" style="display: none;">
-                    <label>Quantidade por Embalagem:
-                        <input type="number" name="quantidade" placeholder="Digite a quantidade">
-                    </label>
-                    <label>Valor por Unidade:
-                        <input type="number" name="valor_unidade" step="0.01" placeholder="Digite o valor por unidade">
-                    </label>
-                </div>
-                
-                <!-- Campos para "Por Quilo" -->
-                <div id="por_quilo" class="dynamic-field" style="display: block;">
-                    <label>Unidade Mínima de Venda:
-                        <input type="number" name="unidade_minima" placeholder="Digite a unidade mínima">
-                    </label>
-                    <label>Valor por Quilo:
-                        <input type="number" name="valor_quilo" step="0.01" value="5.00" placeholder="Digite o valor por quilo">
-                    </label>
-                </div>
-                
-                <label>Peso/Volume:
-                    <input type="number" name="peso" value="1.0" placeholder="Digite o peso ou volume">
-                </label>
-                <label>Informações Nutricionais:
-                    <textarea name="informacoes_nutricionais" rows="2" placeholder="Informações nutricionais relevantes"></textarea>
+                <label>Valor:
+                    <input type="number" name="valor" id="valor" required step="0.01">
                 </label>
             </div>
-            
-            <!-- Informações Adicionais -->
-            <div class="form-section">
-                <h3>Informações Adicionais</h3>
-                <label>Certificações Orgânicas:
-                    <input type="text" name="certificacoes" placeholder="Digite as certificações, se houver">
-                </label>
-                <label>Origem do Produto:
-                    <input type="text" name="origem" placeholder="Digite a origem (local, fazenda, etc.)">
-                </label>
-                <label>Disponibilidade:
-                    <select name="disponibilidade">
-                        <option value="" disabled>Selecione a disponibilidade</option>
-                        <option>Em estoque</option>
-                        <option>Pré-venda</option>
-                    </select>
-                </label>
-                <label>Validade (se aplicável):
-                    <input type="date" name="validade">
-                </label>
-            </div>
-            
-            <button type="submit" name="salvar">Salvar Alterações</button>
-            <button type="submit" name="salvar_novo">Descartar Alterações</button>
+            <button type="button" onclick="salvarAlteracoes()">Salvar Alterações</button>
+            <button type="button" onclick="descartarAlteracoes()">Descartar Alterações</button>
         </form>
     </div>
 
     <script>
-        function atualizarCampos() {
-            const tipoVenda = document.getElementById("tipo_venda").value;
-            document.getElementById("por_unidade").style.display = tipoVenda === "unidade" ? "block" : "none";
-            document.getElementById("por_quilo").style.display = tipoVenda === "quilo" ? "block" : "none";
+        const urlParams = new URLSearchParams(window.location.search);
+        const idProduto = urlParams.get('id'); // Obtém o ID do produto
+        const idAgricultor = urlParams.get('agricultor'); // Obtém o ID do agricultor
+
+        // Verifica se os IDs foram encontrados
+        if (!idProduto || !idAgricultor) {
+            alert("ID do produto ou ID do agricultor não encontrado.");
+            window.location.href = 'listagem.html'; // Redireciona se faltar algum ID
         }
-        document.getElementById("edit-form").addEventListener("submit", function(event) {
-            event.preventDefault(); // Previne o envio padrão do formulário
-            window.location.href = "edicao.html"; // Redireciona para edicao.html
-        });
+
+        // Função para buscar e renderizar o produto específico
+        async function fetchProdutoEspecifico() {
+            try {
+                // URL para buscar um produto específico com base em idAgricultor e idProduto
+                const url = `https://webserver-produto-patinho-feio-do-legume-5vt43egkm.vercel.app/produtos/${idAgricultor}/${idProduto}/`;
+                const response = await fetch(url, { method: 'GET' });
+
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    console.error("Erro ao carregar produto:", response.status, response.statusText, errorText);
+                    throw new Error("Erro ao carregar dados do produto");
+                }
+
+                const produto = await response.json();
+
+                // Preenche o formulário com os dados do produto específico
+                document.getElementById("nome").value = produto.nome || "";
+                document.getElementById("descricao").value = produto.descricao || "";
+                document.getElementById("categoria").value = produto.tipo_produto || "";
+                document.getElementById("quantidade").value = produto.quantidade || "";
+                document.getElementById("valor").value = produto.valor || "";
+
+                // Exibe a imagem atual, se disponível
+                if (produto.foto) {
+                    const fotoLabel = document.querySelector('label[for="foto"]');
+                    fotoLabel.insertAdjacentHTML('beforeend', `<p>Imagem atual: <a href="${produto.foto}" target="_blank">Ver imagem</a></p>`);
+                }
+                
+            } catch (error) {
+                console.error("Erro ao carregar os dados do produto:", error);
+                alert("Erro ao carregar os dados do produto.");
+            }
+        }
+
+        // Função para salvar as alterações
+        async function salvarAlteracoes() {
+            const form = document.getElementById('productForm');
+            const formData = new FormData(form);
+
+            const data = {
+                nome: formData.get('nome'),
+                descricao: formData.get('descricao'),
+                tipo_produto: formData.get('categoria'),
+                quantidade: formData.get('quantidade'),
+                valor: formData.get('valor')
+            };
+
+            try {
+                const url = `https://webserver-produto-patinho-feio-do-legume-5vt43egkm.vercel.app/produtos/atualizar/${idAgricultor}/${idProduto}/`;
+                const response = await fetch(url, {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+
+                if (!response.ok) throw new Error("Erro ao salvar alterações");
+                
+                alert("Produto atualizado com sucesso!");
+                window.location.href = 'listagem.html'; // Redireciona para a página de listagem
+            } catch (error) {
+                console.error("Erro:", error);
+                alert("Falha ao salvar as alterações.");
+            }
+        }
+
+        // Função para descartar alterações e retornar à página de listagem
+        function descartarAlteracoes() {
+            if (confirm("Tem certeza que deseja descartar as alterações?")) {
+                window.location.href = 'listagem.html';
+            }
+        }
+
+        // Carrega o produto específico ao carregar a página
+        document.addEventListener("DOMContentLoaded", fetchProdutoEspecifico);
     </script>
+
 </body>
 </html>
