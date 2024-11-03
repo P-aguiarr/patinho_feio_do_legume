@@ -223,11 +223,12 @@
                 } else {
                     alert("Erro ao atualizar o produto.");
                 }
+                window.location.href = 'cadastroproduto.html'
             })
             .catch(error => {
                 console.error("Erro:", error);
                 alert("Erro ao conectar-se ao servidor.");
-                window.location.href = 'listagem.html'
+                window.location.href = 'cadastroproduto.html'
             });
         }
     </script>
