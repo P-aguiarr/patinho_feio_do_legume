@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- (Cabeçalho permanece o mesmo) -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Produto</title>
     <style>
+        /* (Estilos permanecem os mesmos) */
         body {
             font-family: Arial, sans-serif;
             background-color: #faf9f7;
@@ -12,6 +14,7 @@
             margin: 0;
             padding: 0;
         }
+        /* Estilo do cabeçalho */
         header {
             display: flex;
             justify-content: space-between;
@@ -37,6 +40,7 @@
         .icons {
             font-size: 1.5em;
         }
+        /* Estilo do conteúdo principal */
         .form-container {
             background-color: #f7f3eb;
             padding: 30px 40px;
@@ -60,8 +64,9 @@
         input[type="text"],
         input[type="number"],
         input[type="file"],
-        textarea,
-        select {
+        input[type="date"],
+        select,
+        textarea {
             width: 100%;
             padding: 12px;
             border: 1px solid #c3c2bc;
@@ -79,16 +84,14 @@
             cursor: pointer;
             font-size: 1em;
             transition: background-color 0.3s;
-            width: 100%;
         }
         button:hover {
-            background-color: #4a8a4f;
+            background-color: #63a160;
         }
     </style>
 </head>
 <body>
 
-    <!-- Cabeçalho com logo e ícones -->
     <header>
         <div class="logo-container">
             <img src="images/logo.png" alt="Logo do Patinho Feio do Legume">
@@ -100,67 +103,74 @@
         </div>
     </header>
 
-    <!-- Conteúdo principal -->
     <div class="form-container">
         <h2>Cadastro de Produto</h2>
-        <form id="produtoForm" enctype="multipart/form-data">
-            <!-- Dados Básicos do Produto -->
-            <label>Nome do Produto:
-                <input type="text" id="nome" name="nome" placeholder="Maçã Orgânica 2" required>
-            </label>
-            <label>Descrição:
-                <textarea id="descricao" name="descricao" placeholder="Maçã orgânica fresca e suculenta" required></textarea>
-            </label>
-            <label>Foto do Produto:
-                <input type="file" id="foto" name="foto" accept="image/*" required>
-            </label>
-            <label>Quantidade:
-                <input type="number" id="quantidade" name="quantidade" step="0.01" placeholder="100.50" required>
-            </label>
-            <label>ID do Agricultor:
-                <input type="number" id="id_agricultor" name="id_agricultor" placeholder="1" required>
-            </label>
-            <label>Classificação:
-                <input type="number" id="classificacao" name="classificacao" step="0.1" placeholder="4.5" required>
-            </label>
-            <label>Tipo de Produto:
-                <input type="text" id="tipo_produto" name="tipo_produto" placeholder="Fruta" required>
-            </label>
-            <label>Tipo de Medida:
-                <input type="text" id="tipo_medida" name="tipo_medida" placeholder="kg" required>
-            </label>
-            <label>Valor:
-                <input type="number" id="valor" name="valor" step="0.01" placeholder="1.00" required>
-            </label>
-            <button type="button" id="cadastrarButton">Cadastrar Produto</button>
+        <form id="productForm" enctype="multipart/form-data">
+            <div class="form-section">
+                <h3>Dados Básicos do Produto</h3>
+                <label>Nome do Produto:
+                    <input type="text" name="nome" placeholder="Digite o nome do produto" required>
+                </label>
+                <label>Descrição:
+                    <textarea name="descricao" rows="4" placeholder="Detalhe os benefícios e o modo de uso" required></textarea>
+                </label>
+                <label>Categoria:
+                    <select name="categoria" required>
+                        <option value="" disabled selected>Selecione a categoria</option>
+                        <option value="Fruta">Frutas</option>
+                        <option value="Vegetal">Vegetais</option>
+                        <option value="Grao">Grãos</option>
+                    </select>
+                </label>
+                <label>Imagens do Produto:
+                    <input type="file" name="foto" accept="image/*" required>
+                </label>
+                <label>Quantidade:
+                    <input type="number" name="quantidade" placeholder="Digite a quantidade" required step="0.01">
+                </label>
+                <label>Valor:
+                    <input type="number" name="valor" placeholder="Digite o valor" required step="0.01">
+                </label>
+            </div>
+            
+            <button type="button" onclick="cadastrarProduto()">Cadastrar Produto</button>
         </form>
     </div>
 
     <script>
-        document.getElementById("cadastrarButton").addEventListener("click", function() {
-            const form = document.getElementById("produtoForm");
+        function cadastrarProduto() {
+            const form = document.getElementById('productForm');
             const formData = new FormData(form);
+    
+            // Adicionando campos adicionais necessários
+            formData.append('id_agricultor', 1);  // Você pode alterar conforme necessário
+            formData.append('classificacao', 4.5); // Pode ser ajustado ou removido se não for necessário
+            formData.append('tipo_produto', form.categoria.value); 
+            formData.append('tipo_medida', 'kg');  // Você pode permitir que o usuário selecione isso no formulário
+            formData.append('valor', form.valor.value);
 
-            fetch("https://webserver-produto-patinho-feio-do-legume-6bytzmwt9.vercel.app/produtos/cadastrar/", {
-                method: "POST",
+            // Atualizando a URL de acordo com o exemplo fornecido
+            fetch('https://webserver-produto-patinho-feio-do-legume-5vt43egkm.vercel.app/produtos/cadastrar/', {
+                method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert("Produto cadastrado com sucesso!");
-                    form.reset(); // Limpa o formulário após o sucesso
+            .then(response => {
+                if (response.ok) {
+                    alert('Produto cadastrado com sucesso!');
                 } else {
-                    alert("Erro no cadastro do produto. Verifique os dados e tente novamente.");
+                    alert('Erro ao cadastrar o produto.');
                 }
-                window.location.href = 'listagem.html'
+                // Redireciona para a página de listagem independente do resultado
+                window.location.href = 'listagem.html';
             })
             .catch(error => {
-                console.error("Erro:", error);
-                alert("Erro ao conectar-se ao servidor.");
-                window.location.href = 'listagem.html'
+                console.error('Erro:', error);
+                alert('Erro ao conectar com o servidor: ' + error.message);
+                // Redireciona para a página de listagem em caso de erro
+                window.location.href = 'listagem.html';
             });
-        });
+        }
     </script>
+
 </body>
 </html>
