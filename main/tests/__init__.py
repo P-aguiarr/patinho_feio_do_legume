@@ -1,4 +1,0 @@
-from main.tests.DeleteProdutoViewTests import DeletarProdutoTest
-from main.tests.GetProdutoAgricultorViewTests import BuscarProdutosAgricultorTest
-from main.tests.GetProdutoDisponivelViewTests import BuscarProdutosDisponiveisTest
-from main.tests.PostProdutoViewTests import ProdutoTests
