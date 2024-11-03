@@ -13,8 +13,7 @@
             <h2>Faça sua Associação</h2>
             <p>Crie sua nova conta</p>
 
-            <!-- Formulário de Cadastro com caminho correto para choose-profile.html -->
-            <form id="signupForm" action="/choose-profile.html" method="get">
+            <form id="signupForm">
                 <input type="text" id="nome" name="nome" placeholder="Nome" required>
                 <small id="nomeError" class="error-message"></small>
 
@@ -28,10 +27,9 @@
                 <small id="senhaError" class="error-message"></small>
 
                 <p>Ao clicar "Sign Up" você concorda com os <a href="#">Termos e Condições</a> e <a href="#">Políticas de Privacidade</a></p>
-                <button type="submit">Sign Up</button>
+                <button type="button" id="signupButton">Sign Up</button>
             </form>
 
-            <!-- Login Social e Link para Login -->
             <div class="social-login">
                 <p>OU</p>
                 <div class="social-icons">
@@ -44,10 +42,36 @@
         </div>
     </div>
 
-    <!-- Script para Validação -->
-    <script src="script.js"></script>
-    <style>
-        .error-message { color: red; font-size: 0.9em; display: none; }
-    </style>
+    <script>
+        document.getElementById("signupButton").addEventListener("click", function() {
+            const nome = document.getElementById("nome").value;
+            const email = document.getElementById("email").value;
+            const celular = document.getElementById("celular").value;
+            const senha = document.getElementById("senha").value;
+
+            fetch("https://webserver-cliente-patinho-feio-cht780s1j-alineyhigas-projects.vercel.app/auth/register", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    username: email, // Aqui assumimos que o e-mail será o username
+                    password: senha
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    window.location.href = "choose-profile.html";
+                } else {
+                    alert("Erro no cadastro. Verifique suas informações.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao conectar-se ao servidor.");
+            });
+        });
+    </script>
 </body>
 </html>
