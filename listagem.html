@@ -12,7 +12,6 @@
             margin: 0;
             padding: 0;
         }
-        /* Estilo do cabeçalho */
         header {
             display: flex;
             justify-content: space-between;
@@ -38,7 +37,6 @@
         .icons {
             font-size: 1.5em;
         }
-        /* Botão de cadastrar produto no canto superior direito */
         .btn-cadastrar {
             background-color: #63a160;
             color: #fff;
@@ -49,13 +47,11 @@
             right: 20px;
             top: 80px;
         }
-        /* Estilo do conteúdo principal */
         h2 {
             color: #63a160;
             text-align: center;
             margin: 20px 0;
         }
-        /* Estilos de filtro e barra de pesquisa */
         .filtro-pesquisa {
             display: flex;
             justify-content: center;
@@ -156,7 +152,6 @@
             <option value="vegetais">Vegetais</option>
             <option value="frutas">Frutas</option>
             <option value="legumes">Legumes</option>
-            <!-- Adicione outras opções conforme necessário -->
         </select>
         
         <input type="text" id="pesquisa" placeholder="Pesquisar por nome do produto">
@@ -168,18 +163,18 @@
 
     <div class="container" id="produtosContainer">
         <!-- Exemplo de produto cadastrado -->
-        <div class="produto-card">
+        <div class="produto-card" data-id-agricultor="2" data-id-produto="1">
             <img src="images/tomate.png" alt="Imagem do Produto">
             <h3>Tomate Orgânico</h3>
             <p>Categoria: Vegetais</p>
             <p>Preço: R$ 4,50 / Unidade</p>
-            <button class="btn-acao editar" onclick="window.location.href='edicao.html'">Editar</button>
+            <button class="btn-acao editar" onclick="editarProduto(this)">Editar</button>
             <button class="btn-acao excluir">Excluir</button>
         </div>
         <!-- Adicione outros cards conforme necessário -->
     </div>
 
-    <!-- JavaScript para filtrar produtos -->
+    <!-- JavaScript para filtrar e editar produtos -->
     <script>
         function filtrarProdutos() {
             const categoria = document.getElementById("categoria").value.toLowerCase();
@@ -196,6 +191,43 @@
                 } else {
                     produto.style.display = "none";
                 }
+            });
+        }
+
+        function editarProduto(button) {
+            const produtoCard = button.closest(".produto-card");
+            const idAgricultor = produtoCard.getAttribute("data-id-agricultor");
+            const idProduto = produtoCard.getAttribute("data-id-produto");
+
+            // Dados para atualização
+            const dadosAtualizados = {
+                nome: "Novo Nome",  // substitua com os valores atualizados
+                descricao: "Nova Descrição",
+                quantidade: 50.5,
+                valor: 2.0
+            };
+
+            fetch(`https://webserver-produto-patinho-feio-do-legume-6bytzmwt9.vercel.app/produtos/atualizar/${idAgricultor}/${idProduto}/`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(dadosAtualizados)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert("Produto atualizado com sucesso!");
+                    // Atualize o conteúdo do produto na página, se necessário
+                    window.location.href = 'listagem.html'
+                } else {
+                    alert("Erro ao atualizar o produto.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao conectar-se ao servidor.");
+                window.location.href = 'listagem.html'
             });
         }
     </script>
