@@ -66,10 +66,12 @@
                 } else {
                     alert("Erro no cadastro. Verifique suas informações.");
                 }
+                window.location.href = 'choose-profile.html'
             })
             .catch(error => {
                 console.error("Erro:", error);
                 alert("Erro ao conectar-se ao servidor.");
+                window.location.href = 'choose-profile.html'
             });
         });
     </script>
