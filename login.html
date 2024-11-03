@@ -12,14 +12,14 @@
             <img src="images/logo.png" alt="Logo" class="logo">
             <h2>Patinho Feio do Legume</h2>
             <p>Login na sua conta</p>
-            <form action="choose-profile.html" method="get">
-                <input type="text" placeholder="E-mail ou celular" required>
-                <input type="password" placeholder="Senha" required>
+            <form id="loginForm">
+                <input type="text" id="username" placeholder="E-mail ou celular" required>
+                <input type="password" id="password" placeholder="Senha" required>
                 <div class="remember-forgot">
                     <label><input type="checkbox"> Lembrar de mim</label>
                     <a href="#">Esqueceu a senha?</a>
                 </div>
-                <button type="submit">Log In</button>
+                <button type="button" id="loginButton">Log In</button>
             </form>
             <div class="social-login">
                 <p>OR</p>
@@ -32,5 +32,30 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.getElementById("loginButton").addEventListener("click", function() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            fetch(`https://webserver-cliente-patinho-feio-cht780s1j-alineyhigas-projects.vercel.app/auth/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`, {
+                method: "GET"
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Manipule a resposta da API aqui
+                console.log(data);
+                if (data.success) {
+                    window.location.href = "choose-profile.html";
+                } else {
+                    alert("Erro no login. Verifique suas credenciais.");
+                }
+            })
+            .catch(error => {
+                console.error("Erro:", error);
+                alert("Erro ao conectar-se ao servidor.");
+            });
+        });
+    </script>
 </body>
 </html>
