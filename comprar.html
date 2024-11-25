@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolher produtos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #faf9f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #63a160;
+            padding: 10px 20px;
+            color: #fff;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .logo-container span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .icons {
+            font-size: 1.5em;
+        }
+        h2 {
+            color: #63a160;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .filtro-pesquisa {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px;
+        }
+        .filtro-pesquisa select, .filtro-pesquisa input {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .filtro-pesquisa button {
+            background-color: #63a160;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .filtro-pesquisa button:hover {
+            background-color: #519f51;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .produto-card {
+            background-color: #f7f3eb;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        .produto-card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+        .produto-card h3 {
+            color: #63a160;
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+        .produto-card p {
+            font-size: 0.9em;
+            color: #555;
+            margin: 5px 0;
+        }
+        .btn-comprar {
+            background-color: #63a160;
+            color: #fff;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background-color 0.3s;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+        }
+        .btn-comprar:hover {
+            background-color: #519f51;
+        }
+    </style>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Escolher produtos</title>
+    <style>
+        /* Estilos iguais ao código anterior */
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo-container">
+            <img src="images/logo.png" alt="Logo do Patinho Feio do Legume">
+            <span>Patinho Feio do Legume</span>
+        </div>
+        <div class="icons">
+            <span>🛒</span>
+            <span style="margin-left: 15px;">👤</span>
+        </div>
+    </header>
+
+    <!-- Filtro por categoria e barra de pesquisa -->
+    <div class="filtro-pesquisa">
+        <select id="categoria" name="categoria">
+            <option value="">Todas as Categorias</option>
+            <option value="vegetal">Vegetais</option>
+            <option value="fruta">Frutas</option>
+            <option value="graos">Grãos</option>
+        </select>
+        <input type="text" id="pesquisa" placeholder="Pesquisar por nome do produto">
+        <button onclick="filtrarProdutos()">Buscar</button>
+    </div>
+
+    <!-- Conteúdo principal -->
+    <h2>Escolha um produto</h2>
+    <div class="container" id="produtosContainer">
+        <!-- Produtos carregados dinamicamente -->
+    </div>
+
+    <script>
+        let todosProdutos = [];
+
+        async function fetchProdutos() {
+            try {
+                const response = await fetch('https://webserver-produto-patinho-feio-do-legume-5vt43egkm.vercel.app/produtos/disponiveis/', {
+                    method: 'GET'
+                });
+                if (!response.ok) {
+                    throw new Error(`Erro: ${response.status} - ${response.statusText}`);
+                }
+                todosProdutos = await response.json();
+                renderizarProdutos(todosProdutos);
+            } catch (error) {
+                console.error('Erro ao buscar produtos:', error);
+                alert('Erro ao carregar produtos.');
+            }
+        }
+
+        function renderizarProdutos(produtos) {
+            const container = document.getElementById('produtosContainer');
+            container.innerHTML = '';
+            produtos.forEach(produto => {
+                const fotoUrl = produto.foto || 'imagens/default.png';
+                const produtoCard = document.createElement('div');
+                produtoCard.classList.add('produto-card');
+                produtoCard.innerHTML = `
+                    <img src="${fotoUrl}" alt="Imagem do Produto">
+                    <h3>${produto.nome}</h3>
+                    <p>Descrição: ${produto.descricao}</p>
+                    <p>Categoria: ${produto.tipo_produto}</p>
+                    <p>Quantidade: ${produto.quantidade} ${produto.tipo_medida}</p>
+                    <p>Preço: R$ ${parseFloat(produto.valor).toFixed(2)} / ${produto.tipo_medida}</p>
+                    <a href="pagamento.html?nome=${produto.nome}&id_produto=${produto.id_produto}&id_agricultor=${produto.id_agricultor}&valor=${produto.valor}" class="btn-comprar">Comprar produto</a>
+                `;
+                container.appendChild(produtoCard);
+            });
+        }
+
+        function filtrarProdutos() {
+            const categoria = document.getElementById('categoria').value.toLowerCase();
+            const pesquisa = document.getElementById('pesquisa').value.toLowerCase();
+            const filtrados = todosProdutos.filter(produto => {
+                const matchCategoria = !categoria || produto.tipo_produto.toLowerCase() === categoria;
+                const matchPesquisa = produto.nome.toLowerCase().includes(pesquisa);
+                return matchCategoria && matchPesquisa;
+            });
+            renderizarProdutos(filtrados);
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchProdutos);
+    </script>
+</body>
+</html>
