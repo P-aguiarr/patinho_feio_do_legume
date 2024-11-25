@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Comprar Produto</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #faf9f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #63a160;
+            padding: 10px 20px;
+            color: #fff;
+        }
+        .logo-container {
+            display: flex;
+            align-items: center;
+        }
+        .logo-container img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 10px;
+        }
+        .logo-container span {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+        .icons {
+            font-size: 1.5em;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            margin: 50px auto;
+        }
+        h2 {
+            color: #63a160;
+            text-align: center;
+        }
+        .field {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+        }
+        .actions button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .increment, .decrement {
+            background-color: #63a160;
+            color: #fff;
+        }
+        .increment:hover, .decrement:hover {
+            background-color: #519f51;
+        }
+        .buy {
+            background-color: #4CAF50;
+            color: #fff;
+        }
+        .buy:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo-container" onclick="voltarParaTelaAnterior()" style="cursor: pointer;">
+            <img src="images/logo.png" alt="Logo do Patinho Feio do Legume">
+            <span>Patinho Feio do Legume</span>
+        </div>
+        <div class="icons">
+            <span>🛒</span>
+            <span style="margin-left: 15px;">👤</span>
+        </div>
+    </header>    
+
+    <!-- Conteúdo principal -->
+    <div class="container">
+        <h2>Finalizar Compra</h2>
+        <div class="field">
+            <label for="nome">Nome</label>
+            <input type="text" id="nome" readonly>
+        </div>
+        <div class="field">
+            <label for="id_produto">ID Produto</label>
+            <input type="text" id="id_produto" readonly>
+        </div>
+        <div class="field">
+            <label for="id_agricultor">ID Agricultor</label>
+            <input type="text" id="id_agricultor" readonly>
+        </div>
+        <div class="field">
+            <label for="valor">Preço Unitário</label>
+            <input type="text" id="valor" readonly>
+        </div>
+        <div class="field">
+            <label for="quantidade">Quantidade</label>
+            <div class="actions">
+                <button class="decrement" onclick="alterarQuantidade(-1)">-</button>
+                <input type="number" id="quantidade" value="1" min="1" readonly>
+                <button class="increment" onclick="alterarQuantidade(1)">+</button>
+            </div>
+        </div>
+        <div class="field">
+            <label for="valor_total">Valor Total</label>
+            <input type="text" id="valor_total" readonly>
+        </div>
+        <button class="buy" onclick="finalizarCompra()">Finalizar Compra</button>
+    </div>
+
+    <script>
+        // Preenche os campos com os dados da URL
+        function carregarDados() {
+            const params = new URLSearchParams(window.location.search);
+            document.getElementById('nome').value = params.get('nome');
+            document.getElementById('id_produto').value = params.get('id_produto');
+            document.getElementById('id_agricultor').value = params.get('id_agricultor');
+            document.getElementById('valor').value = parseFloat(params.get('valor')).toFixed(2);
+            atualizarValorTotal();
+        }
+
+        // Atualiza a quantidade e o valor total
+        function alterarQuantidade(delta) {
+            const quantidade = document.getElementById('quantidade');
+            let valorAtual = parseInt(quantidade.value, 10);
+            valorAtual = Math.max(1, valorAtual + delta); // Garante que o mínimo seja 1
+            quantidade.value = valorAtual;
+            atualizarValorTotal();
+        }
+
+        // Calcula e atualiza o valor total
+        function atualizarValorTotal() {
+            const valorUnitario = parseFloat(document.getElementById('valor').value);
+            const quantidade = parseInt(document.getElementById('quantidade').value, 10);
+            const valorTotal = (valorUnitario * quantidade).toFixed(2);
+            document.getElementById('valor_total').value = `R$ ${valorTotal}`;
+        }
+
+        // Finaliza a compra
+        async function finalizarCompra() {
+            const produto = {
+                nome: document.getElementById('nome').value,
+                produto_id: document.getElementById('id_produto').value,
+                quantidade: parseInt(document.getElementById('quantidade').value, 10),
+                valor: parseFloat(document.getElementById('valor').value),
+                id_agricultor: document.getElementById('id_agricultor').value
+            };
+
+            const valorTotal = parseFloat(document.getElementById('valor_total').value.replace('R$', '').trim());
+            const cliente = {
+                id: 2, // ID do cliente fixo para demonstração
+                username: "Aline123", // Nome do cliente fixo
+                email: "aline@gmail.com" // E-mail fixo
+            };
+
+            const payload = {
+                produtos: [produto],
+                cliente,
+                valor_total: valorTotal
+            };
+
+            try {
+                const response = await fetch('https://webserver-compra-patinho-feio-legume.vercel.app/comprar/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    alert('Compra finalizada com sucesso! ID da Compra: ' + result.id_compra);
+                } else {
+                    const error = await response.json();
+                    alert('Erro ao finalizar a compra: ' + error.message);
+                }
+            } catch (error) {
+                alert('Erro ao conectar com o servidor: ' + error.message);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', carregarDados);
+
+    function voltarParaTelaAnterior() {
+    // Redireciona para a tela anterior ou para a tela principal
+    window.location.href = 'choose-profile.html'; // Substitua 'index.html' pela página de destino desejada
+    }
+
+    </script>
+</body>
+</html>
